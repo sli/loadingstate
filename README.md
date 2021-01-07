@@ -5,7 +5,7 @@ resource.
 
 ### Usage Example
 
-```
+```elm
 type alias Model =
     { username : String
     , password : String
@@ -50,7 +50,7 @@ update msg model =
 
 And then later in your view somewhere:
 
-```
+```elm
 case model.loggingIn of
     Loading ->
         div [] [ text "Logging in..." ]
