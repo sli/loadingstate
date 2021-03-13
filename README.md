@@ -64,3 +64,5 @@ case model.loggingIn of
     NotLoading ->
         div [] []
 ```
+
+This module is similar to the [Network.RemoteData](https://pursuit.purescript.org/packages/purescript-remotedata/4.2.0/docs/Network.RemoteData) PureScript module and provides a similar API.
