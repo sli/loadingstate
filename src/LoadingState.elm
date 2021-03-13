@@ -1,6 +1,6 @@
 module LoadingState exposing
     ( LoadingState(..)
-    , unwrap, map
+    , map, toMaybe, fromMaybe, fromResult, withDefault
     )
 
 {-| Track the loading state of an external resource. Ideal for network requests.
@@ -13,7 +13,7 @@ module LoadingState exposing
 
 # Functions
 
-@docs unwrap, map
+@docs map, toMaybe, fromMaybe, fromResult, withDefault
 
 -}
 
@@ -39,13 +39,49 @@ map loadingState f =
             loadingState
 
 
-{-| Unwraps a loaded value. Not recommended.
+{-| Unwraps a loaded value to a Maybe.
 -}
-unwrap : LoadingState err a -> Maybe a
-unwrap loadingState =
+toMaybe : LoadingState err a -> Maybe a
+toMaybe loadingState =
     case loadingState of
         Loaded a ->
             Just a
 
         _ ->
             Nothing
+
+
+{-| Converts a Maybe to a loaded value.
+-}
+fromMaybe : Maybe a -> LoadingState err a
+fromMaybe maybeA =
+    case maybeA of
+        Just a ->
+            Loaded a
+
+        Nothing ->
+            NotLoading
+
+
+{-| Converts a result to a loading state.
+-}
+fromResult : Result err a -> LoadingState err a
+fromResult result =
+    case result of
+        Ok a ->
+            Loaded a
+
+        Err err ->
+            Failed err
+
+
+{-| If the provided loading state is unsuccessful, return a provided default value.
+-}
+withDefault : LoadingState err a -> a
+withDefault loadingState default =
+    case loadingState of
+        Loaded a ->
+            a
+
+        _ ->
+            default
